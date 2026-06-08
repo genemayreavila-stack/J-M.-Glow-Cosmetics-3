@@ -20,8 +20,13 @@ import CartSidebar from "./components/CartSidebar";
 export default function App() {
   // --- STATE ENGINES ---
   const [cart, setCart] = useState<CartItem[]>(() => {
-    const saved = localStorage.getItem("jmglows_cart");
-    return saved ? JSON.parse(saved) : [];
+    try {
+      const saved = localStorage.getItem("jmglows_cart");
+      return saved ? JSON.parse(saved) : [];
+    } catch (e) {
+      console.error("Local storage cart parsing expired or failed:", e);
+      return [];
+    }
   });
 
   const [selectedCategory, setSelectedCategory] = useState<string>("all");

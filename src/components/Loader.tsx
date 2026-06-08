@@ -6,14 +6,14 @@ export default function Loader() {
   const [shouldRender, setShouldRender] = useState(true);
 
   useEffect(() => {
-    // Elegant fade out timers after 1.5 seconds
+    // Elegant fade out timers snappier response
     const timerFade = setTimeout(() => {
       setVisible(false);
-    }, 1800);
+    }, 1000);
 
     const timerRemove = setTimeout(() => {
       setShouldRender(false);
-    }, 2400);
+    }, 1400);
 
     return () => {
       clearTimeout(timerFade);
