@@ -1,0 +1,6 @@
+{
+  "name": "J & M. Glows Cosmetics",
+  "description": "Tienda en línea elegante de maquillaje de alta gama y cosméticos premium. Descubre bases de lujo, iluminadores radiantes, labiales mate y kits profesionales.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
