@@ -44,41 +44,48 @@ export default function Testimonies() {
         <div className="relative min-h-[220px] flex items-center justify-center">
           
           {/* Active Testimonial Card */}
-          <div className="w-full text-center transition-all duration-500 px-8 sm:px-16">
+          {(() => {
+            const testimonial = TESTIMONIALS[activeIndex] || TESTIMONIALS[0] || { rating: 5, comment: "", name: "", date: "", avatar: "" };
+            const rating = typeof testimonial.rating === "number" ? testimonial.rating : 5;
             
-            {/* Stars */}
-            <div className="flex items-center justify-center space-x-1.5 mb-5">
-              {[...Array(TESTIMONIALS[activeIndex].rating)].map((_, i) => (
-                <Star key={i} className="w-5 h-5 fill-gold-500 text-gold-500" />
-              ))}
-            </div>
+            return (
+              <div className="w-full text-center transition-all duration-500 px-8 sm:px-16">
+                
+                {/* Stars */}
+                <div className="flex items-center justify-center space-x-1.5 mb-5">
+                  {[...Array(rating)].map((_, i) => (
+                    <Star key={i} className="w-5 h-5 fill-gold-500 text-gold-500" />
+                  ))}
+                </div>
 
-            {/* Quote content */}
-            <blockquote className="font-serif text-lg sm:text-xl md:text-2xl leading-relaxed text-neutral-800 dark:text-neutral-200 font-medium">
-              "{TESTIMONIALS[activeIndex].comment}"
-            </blockquote>
+                {/* Quote content */}
+                <blockquote className="font-serif text-lg sm:text-xl md:text-2xl leading-relaxed text-neutral-800 dark:text-neutral-200 font-medium">
+                  "{testimonial.comment}"
+                </blockquote>
 
-            {/* Author Detail with profile avatar */}
-            <div className="mt-6 flex items-center justify-center space-x-3">
-              {TESTIMONIALS[activeIndex].avatar && (
-                <img
-                  src={TESTIMONIALS[activeIndex].avatar}
-                  alt={TESTIMONIALS[activeIndex].name}
-                  className="w-10 h-10 rounded-full object-cover border border-gold-500/20"
-                  referrerPolicy="no-referrer"
-                />
-              )}
-              <div className="text-left">
-                <span className="block font-sans text-xs uppercase tracking-wider font-semibold text-neutral-900 dark:text-neutral-100">
-                  {TESTIMONIALS[activeIndex].name}
-                </span>
-                <span className="block text-[10px] text-neutral-400 font-mono uppercase">
-                  Cliente Verificada • {TESTIMONIALS[activeIndex].date}
-                </span>
+                {/* Author Detail with profile avatar */}
+                <div className="mt-6 flex items-center justify-center space-x-3">
+                  {testimonial.avatar && (
+                    <img
+                      src={testimonial.avatar}
+                      alt={testimonial.name}
+                      className="w-10 h-10 rounded-full object-cover border border-gold-500/20"
+                      referrerPolicy="no-referrer"
+                    />
+                  )}
+                  <div className="text-left">
+                    <span className="block font-sans text-xs uppercase tracking-wider font-semibold text-neutral-900 dark:text-neutral-100">
+                      {testimonial.name}
+                    </span>
+                    <span className="block text-[10px] text-neutral-400 font-mono uppercase">
+                      Cliente Verificada • {testimonial.date}
+                    </span>
+                  </div>
+                </div>
+
               </div>
-            </div>
-
-          </div>
+            );
+          })()}
 
           {/* Left Arrow */}
           <button

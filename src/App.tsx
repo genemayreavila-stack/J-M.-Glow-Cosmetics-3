@@ -22,7 +22,13 @@ export default function App() {
   const [cart, setCart] = useState<CartItem[]>(() => {
     try {
       const saved = localStorage.getItem("jmglows_cart");
-      return saved ? JSON.parse(saved) : [];
+      if (saved) {
+        const parsed = JSON.parse(saved);
+        if (Array.isArray(parsed)) {
+          return parsed;
+        }
+      }
+      return [];
     } catch (e) {
       console.error("Local storage cart parsing expired or failed:", e);
       return [];
@@ -36,8 +42,13 @@ export default function App() {
   const [toastMessage, setToastMessage] = useState<string>("");
   
   const [darkMode, setDarkMode] = useState<boolean>(() => {
-    const saved = localStorage.getItem("jmglows_theme");
-    return saved ? saved === "dark" : true; // Defaults to Elegant Dark theme
+    try {
+      const saved = localStorage.getItem("jmglows_theme");
+      return saved ? saved === "dark" : true; // Defaults to Elegant Dark theme
+    } catch (e) {
+      console.warn("Local storage theme detection failed:", e);
+      return true;
+    }
   });
 
   const [backToTopVisible, setBackToTopVisible] = useState<boolean>(false);
@@ -45,17 +56,29 @@ export default function App() {
 
   // --- LOCAL PERSISTENCE ---
   useEffect(() => {
-    localStorage.setItem("jmglows_cart", JSON.stringify(cart));
+    try {
+      localStorage.setItem("jmglows_cart", JSON.stringify(cart));
+    } catch (e) {
+      console.warn("Local storage cart write failed:", e);
+    }
   }, [cart]);
 
   // --- THEME REFLECTION ---
   useEffect(() => {
     if (darkMode) {
       document.documentElement.classList.add("dark");
-      localStorage.setItem("jmglows_theme", "dark");
+      try {
+        localStorage.setItem("jmglows_theme", "dark");
+      } catch (e) {
+        console.warn("Local storage theme write failed:", e);
+      }
     } else {
       document.documentElement.classList.remove("dark");
-      localStorage.setItem("jmglows_theme", "light");
+      try {
+        localStorage.setItem("jmglows_theme", "light");
+      } catch (e) {
+        console.warn("Local storage theme write failed:", e);
+      }
     }
   }, [darkMode]);
 
